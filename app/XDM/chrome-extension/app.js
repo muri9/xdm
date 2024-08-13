@@ -97,10 +97,16 @@ export default class App {
         if (changeInfo.url && changeInfo.url.indexOf("chrome:") === 0) {
             return;
         }
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ["ping.js"],
-        }).then(() => this.logger.log("script injected"));
+
+        if (tab.url.includes('chrome://')){
+            console.log('can`t run on start page')
+        } else {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["ping.js"],
+            }).then(() => this.logger.log("script injected"));
+        }
+
         if (!this.isMonitoringEnabled()) {
             return;
         }
@@ -344,28 +350,32 @@ export default class App {
     }
 
     attachContextMenu() {
-        chrome.contextMenus.create({
-            id: 'download-any-link',
-            title: "Download with XDM",
-            contexts: ["link", "video", "audio", "all"]
-        });
+        chrome.runtime.onInstalled.addListener(() => {
 
-        chrome.contextMenus.create({
-            id: 'download-image-link',
-            title: "Download Image with XDM",
-            contexts: ["image"]
-        });
+            chrome.contextMenus.create({
+                id: 'download-any-link',
+                title: "Download with XDM",
+                contexts: ["link", "video", "audio", "all"]
+            });
 
-        chrome.contextMenus.create({
-            id: 'download-all-links',
-            title: "Download All links with XDM",
-            contexts: ["all"]
-        });
+            chrome.contextMenus.create({
+                id: 'download-image-link',
+                title: "Download Image with XDM",
+                contexts: ["image"]
+            });
 
-        chrome.contextMenus.create({
-            id: 'download-all-images',
-            title: "Download All images with XDM",
-            contexts: ["all"]
+            chrome.contextMenus.create({
+                id: 'download-all-links',
+                title: "Download All links with XDM",
+                contexts: ["all"]
+            });
+
+            chrome.contextMenus.create({
+                id: 'download-all-images',
+                title: "Download All images with XDM",
+                contexts: ["all"]
+            });
+
         });
 
         chrome.contextMenus.onClicked.addListener(this.onMenuClicked.bind(this));
