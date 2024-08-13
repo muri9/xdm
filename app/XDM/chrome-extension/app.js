@@ -9,7 +9,7 @@ export default class App {
         this.videoList = [];
         this.blockedHosts = [];
         this.fileExts = [];
-        this.requestWatcher = new RequestWatcher(this.onRequestDataReceived.bind(this));
+        //this.requestWatcher = new RequestWatcher(this.onRequestDataReceived.bind(this));
         this.tabsWatcher = [];
         this.userDisabled = false;
         this.appEnabled = false;
@@ -39,12 +39,12 @@ export default class App {
         this.blockedHosts = msg.blockedHosts;
         this.tabsWatcher = msg.tabsWatcher;
         this.videoList = msg.videoList;
-        this.requestWatcher.updateConfig({
-            mediaExts: msg.requestFileExts,
-            blockedHosts: msg.blockedHosts,
-            matchingHosts: msg.matchingHosts,
-            mediaTypes: msg.mediaTypes
-        });
+        //this.requestWatcher.updateConfig({
+        //    mediaExts: msg.requestFileExts,
+        //    blockedHosts: msg.blockedHosts,
+        //    matchingHosts: msg.matchingHosts,
+        //    mediaTypes: msg.mediaTypes
+        //});
         this.updateActionIcon();
     }
 
@@ -138,7 +138,7 @@ export default class App {
             this.onTabUpdateCallback
         );
         chrome.runtime.onMessage.addListener(this.onPopupMessage.bind(this));
-        this.requestWatcher.register();
+        //this.requestWatcher.register();
         this.attachContextMenu();
         chrome.tabs.onActivated.addListener(this.onTabActivated.bind(this));
     }
