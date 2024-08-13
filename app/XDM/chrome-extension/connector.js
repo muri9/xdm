@@ -8,17 +8,17 @@ export default class Connector {
         this.logger = new Logger();
         this.onMessage = onMessage;
         this.onDisconnect = onDisconnect;
-        this.connected = undefined;
+        this.connected = true;
     }
 
     connect() {
-        for (let i = 0; i < 12; i++) {
-            chrome.alarms.create("alerm-" + i, {
-                periodInMinutes: 1,
-                when: Date.now() + 1000 + ((i + 1) * 5000)
-            });
-        }
-        chrome.alarms.onAlarm.addListener(this.onTimer.bind(this));
+        //for (let i = 0; i < 12; i++) {
+        //    chrome.alarms.create("alerm-" + i, {
+        //        periodInMinutes: 1,
+        //        when: Date.now() + 1000 + ((i + 1) * 5000)
+        //    });
+        //}
+        //chrome.alarms.onAlarm.addListener(this.onTimer.bind(this));
     }
 
     onTimer() {

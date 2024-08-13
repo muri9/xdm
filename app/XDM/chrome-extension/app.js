@@ -12,7 +12,7 @@ export default class App {
         //this.requestWatcher = new RequestWatcher(this.onRequestDataReceived.bind(this));
         this.tabsWatcher = [];
         this.userDisabled = false;
-        this.appEnabled = false;
+        this.appEnabled = true;
         this.onDownloadCreatedCallback = this.onDownloadCreated.bind(this);
         this.onDeterminingFilenameCallback = this.onDeterminingFilename.bind(this);
         this.onTabUpdateCallback = this.onTabUpdate.bind(this);
@@ -55,7 +55,7 @@ export default class App {
     }
 
     isMonitoringEnabled() {
-        this.logger.log(this.appEnabled + " " + this.userDisabled);
+        //this.logger.log(this.appEnabled + " " + this.userDisabled);
         return this.appEnabled === true && this.userDisabled === false && this.connector.isConnected();
     }
 
@@ -73,18 +73,16 @@ export default class App {
         }
         this.logger.log(download);
         let url = download.finalUrl || download.url;
-        this.logger.log(url);
-        if (this.isMonitoringEnabled() && this.shouldTakeOver(url, download.filename)) {
-            chrome.downloads.cancel(
-                download.id,
-                () => chrome.downloads.erase({ id: download.id })
-            );
+        //if (this.shouldTakeOver(url, download.filename)) {
+        if (true) {
+            suggest({filename: download.filename, conflict_action: 'prompt', conflictAction: 'prompt'});
+            chrome.downloads.cancel(download.id);
+            //chrome.downloads.erase(download)
             let referrer = download.referrer;
             if (!referrer && download.finalUrl !== download.url) {
                 referrer = download.url;
             }
-            this.triggerDownload(url, download.filename,
-                referrer, download.fileSize, download.mime);
+            this.triggerDownload(url, download.filename, referrer, download.fileSize, download.mime);
         }
     }
 
@@ -249,6 +247,7 @@ export default class App {
                 fileSize: size,
                 mimeType: mime
             };
+            this.logger.log('triggerDownload');
             this.logger.log(data);
             this.connector.postMessage("/download", data);
         });
