@@ -125,6 +125,7 @@ export default class App {
     }
 
     register() {
+        chrome.action.setPopup({ popup: "./popup.html" });
         this.keepAwake();
         chrome.downloads.onCreated.addListener(this.onDownloadCreatedCallback);
         chrome.downloads.onDeterminingFilename.addListener(this.onDeterminingFilenameCallback);
