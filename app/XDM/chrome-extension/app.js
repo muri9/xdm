@@ -126,19 +126,13 @@ export default class App {
 
     register() {
         this.keepAwake();
-        chrome.downloads.onCreated.addListener(
-            this.onDownloadCreatedCallback
-        );
-        chrome.downloads.onDeterminingFilename.addListener(
-            this.onDeterminingFilenameCallback
-        );
-        chrome.tabs.onUpdated.addListener(
-            this.onTabUpdateCallback
-        );
+        chrome.downloads.onCreated.addListener(this.onDownloadCreatedCallback);
+        chrome.downloads.onDeterminingFilename.addListener(this.onDeterminingFilenameCallback);
+        //chrome.tabs.onUpdated.addListener(this.onTabUpdateCallback);
         chrome.runtime.onMessage.addListener(this.onPopupMessage.bind(this));
         //this.requestWatcher.register();
         this.attachContextMenu();
-        chrome.tabs.onActivated.addListener(this.onTabActivated.bind(this));
+        //chrome.tabs.onActivated.addListener(this.onTabActivated.bind(this));
     }
 
     isSupportedProtocol(url) {
