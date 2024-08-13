@@ -27,7 +27,7 @@ class VideoPopup {
         if (response.list.length > 0) {
             document.getElementById('content').style.display = 'block';
         }
-        this.renderList(response.list);
+        //this.renderList(response.list);
     }
 
     renderList(arr) {
